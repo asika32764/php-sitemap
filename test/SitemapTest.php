@@ -6,6 +6,7 @@
  * @license    GNU General Public License version 2 or later;
  */
 
+use Asika\Sitemap\ChangeFreq;
 use Asika\Sitemap\Sitemap;
 
 /**
@@ -52,7 +53,7 @@ XML;
 
 		$this->assertDomStringEqualsDomString($xml, $this->instance->toString());
 
-		$this->instance->addItem('http://windwalker.io/foo/bar/?flower=sakura&fly=bird', '1.0', \Asika\Sitemap\ChangeFreq::DAILY, '2015-06-07 10:51:20');
+		$this->instance->addItem('http://windwalker.io/foo/bar/?flower=sakura&fly=bird', '1.0', ChangeFreq::DAILY, '2015-06-07 10:51:20');
 
 		$xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
