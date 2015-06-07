@@ -1,6 +1,6 @@
 # PHP Sitemap
 
-PHP Simple Sitemap Generator.
+PHP Simple Sitemap Generator. Follows the [W3C Sitemap Protocol](http://www.sitemaps.org/protocol.html)
 
 ## Installation via Composer
 
