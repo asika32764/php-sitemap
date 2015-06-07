@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>PHP Simple Sitemap Generator by asika32764</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">PHP Simple Sitemap Generator</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/asika32764/php-sitemap" class="btn">View on GitHub</a>
+      <a href="https://github.com/asika32764/php-sitemap/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/asika32764/php-sitemap/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="php-sitemap" class="anchor" href="#php-sitemap" aria-hidden="true"><span class="octicon octicon-link"></span></a>PHP Sitemap</h1>
+
+<p>PHP Simple Sitemap Generator. Follows the <a href="http://www.sitemaps.org/protocol.html">W3C Sitemap Protocol</a></p>
+
+<h2>
+<a id="installation-via-composer" class="anchor" href="#installation-via-composer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation via Composer</h2>
+
+<p>Add this to composer.json require block.</p>
+
+<div class="highlight highlight-json"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>require<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>asika/php-sitemap<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1.*<span class="pl-pds">"</span></span>
+    }
+}</pre></div>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>Create a sitemap object:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">Asika\Sitemap\Sitemap</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$sitemap</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Sitemap</span>;</span></pre></div>
+
+<p>Add items to sitemap:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$sitemap</span><span class="pl-k">-&gt;</span>addItem(<span class="pl-smi">$url</span>);</span>
+<span class="pl-s1"><span class="pl-smi">$sitemap</span><span class="pl-k">-&gt;</span>addItem(<span class="pl-smi">$url</span>);</span>
+<span class="pl-s1"><span class="pl-smi">$sitemap</span><span class="pl-k">-&gt;</span>addItem(<span class="pl-smi">$url</span>);</span></pre></div>
+
+<p>You can add some optional params.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">Asika\Sitemap\ChangeFreq</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$sitemap</span><span class="pl-k">-&gt;</span>addItem(<span class="pl-smi">$url</span>, <span class="pl-s"><span class="pl-pds">'</span>1.0<span class="pl-pds">'</span></span>, <span class="pl-c1">ChangeFreq</span><span class="pl-k">::</span><span class="pl-c1">DAILY</span>, <span class="pl-s"><span class="pl-pds">'</span>2015-06-07 10:51:20<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$sitemap</span><span class="pl-k">-&gt;</span>addItem(<span class="pl-smi">$url</span>, <span class="pl-s"><span class="pl-pds">'</span>0.7<span class="pl-pds">'</span></span>, <span class="pl-c1">ChangeFreq</span><span class="pl-k">::</span><span class="pl-c1">WEEKLY</span>, <span class="pl-k">new</span> <span class="pl-c1">\DateTime</span>(<span class="pl-s"><span class="pl-pds">'</span>2015-06-03 11:24:20<span class="pl-pds">'</span></span>));</span></pre></div>
+
+<p>The arguments are <code>loc</code>, <code>priority</code>, <code>changefreq</code> and <code>lastmod</code>. See this table:</p>
+
+<table>
+<thead>
+<tr>
+<th>Params</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loc</code></td>
+<td>required</td>
+<td>URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters.</td>
+</tr>
+<tr>
+<td><code>priority</code></td>
+<td>optional</td>
+<td>The date of last modification of the file. This date should be in <a href="http://www.w3.org/TR/NOTE-datetime">W3C Datetime format</a>. This format allows you to omit the time portion, if desired, and use YYYY-MM-DD.</td>
+</tr>
+<tr>
+<td><code>changefreq</code></td>
+<td>optional</td>
+<td>How frequently the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page.</td>
+</tr>
+<tr>
+<td><code>lastmod</code></td>
+<td>optional</td>
+<td>The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0. This value does not affect how your pages are compared to pages on other sites—it only lets the search engines know which pages you deem most important for the crawlers.</td>
+</tr>
+</tbody>
+</table>
+
+<p>See: <a href="http://www.sitemaps.org/protocol.html#xmlTagDefinitions">http://www.sitemaps.org/protocol.html#xmlTagDefinitions</a></p>
+
+<h3>
+<a id="render-it-to-xml" class="anchor" href="#render-it-to-xml" aria-hidden="true"><span class="octicon octicon-link"></span></a>Render it to XML:</h3>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">echo</span> <span class="pl-smi">$sitemap</span><span class="pl-k">-&gt;</span>toString();</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// OR</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1">(<span class="pl-k">string</span>) <span class="pl-smi">$sitemap</span>;</span></pre></div>
+
+<p>This is an example to send it as real sitemap for Google or other search engine:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">header</span>(<span class="pl-s"><span class="pl-pds">'</span>Content-Type: application/xml<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c1">echo</span> <span class="pl-smi">$sitemap</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">exit</span>();</span></pre></div>
+
+<p>Output:</p>
+
+<div class="highlight highlight-xml"><pre>&lt;?<span class="pl-ent">xml</span><span class="pl-e"> version</span>=<span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span><span class="pl-e"> encoding</span>=<span class="pl-s"><span class="pl-pds">"</span>utf-8<span class="pl-pds">"</span></span>?&gt;
+&lt;<span class="pl-ent">urlset</span> <span class="pl-e">xmlns</span>=<span class="pl-s"><span class="pl-pds">"</span>http://www.sitemaps.org/schemas/sitemap/0.9<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">url</span>&gt;
+        &lt;<span class="pl-ent">loc</span>&gt;http://sitemap.io&lt;/<span class="pl-ent">loc</span>&gt;
+    &lt;/<span class="pl-ent">url</span>&gt;
+    &lt;<span class="pl-ent">url</span>&gt;
+        &lt;<span class="pl-ent">loc</span>&gt;http://sitemap.io/foo/bar/?flower=sakura<span class="pl-c1">&amp;amp;</span>fly=bird&lt;/<span class="pl-ent">loc</span>&gt;
+        &lt;<span class="pl-ent">changefreq</span>&gt;daily&lt;/<span class="pl-ent">changefreq</span>&gt;
+        &lt;<span class="pl-ent">priority</span>&gt;1.0&lt;/<span class="pl-ent">priority</span>&gt;
+        &lt;<span class="pl-ent">lastmod</span>&gt;2015-06-07T10:51:20+02:00&lt;/<span class="pl-ent">lastmod</span>&gt;
+    &lt;/<span class="pl-ent">url</span>&gt;
+&lt;/<span class="pl-ent">urlset</span>&gt;</pre></div>
+
+<h2>
+<a id="arguments" class="anchor" href="#arguments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Arguments</h2>
+
+<h3>
+<a id="loc" class="anchor" href="#loc" aria-hidden="true"><span class="octicon octicon-link"></span></a>loc</h3>
+
+<p>The URL will be auto escaped. For example, the <code>&amp;</code>, <code>&gt;</code> will convert to <code>&amp;amp;</code>, <code>&amp;gt;</code>. </p>
+
+<p>If you want to escape it yourself, set auto escape off:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$sitemap</span><span class="pl-k">-&gt;</span>setAutoEscape(<span class="pl-c1">false</span>);</span></pre></div>
+
+<p>See: <a href="http://www.sitemaps.org/protocol.html#escaping">http://www.sitemaps.org/protocol.html#escaping</a></p>
+
+<h3>
+<a id="changefreq" class="anchor" href="#changefreq" aria-hidden="true"><span class="octicon octicon-link"></span></a>changefreq</h3>
+
+<p>Valid values are:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">ChangeFreq</span><span class="pl-k">::</span><span class="pl-c1">ALWAYS</span>;</span>
+<span class="pl-s1"><span class="pl-c1">ChangeFreq</span><span class="pl-k">::</span><span class="pl-c1">HOURLY</span>;</span>
+<span class="pl-s1"><span class="pl-c1">ChangeFreq</span><span class="pl-k">::</span><span class="pl-c1">DAILY</span>;</span>
+<span class="pl-s1"><span class="pl-c1">ChangeFreq</span><span class="pl-k">::</span><span class="pl-c1">WEEKLY</span>;</span>
+<span class="pl-s1"><span class="pl-c1">ChangeFreq</span><span class="pl-k">::</span><span class="pl-c1">MONTHLY</span>;</span>
+<span class="pl-s1"><span class="pl-c1">ChangeFreq</span><span class="pl-k">::</span><span class="pl-c1">YEARLY</span>;</span>
+<span class="pl-s1"><span class="pl-c1">ChangeFreq</span><span class="pl-k">::</span><span class="pl-c1">NEVER</span>;</span></pre></div>
+
+<p>The value <code>always</code> should be used to describe documents that change each time they are accessed. </p>
+
+<p>The value <code>never</code> should be used to describe archived URLs.</p>
+
+<p>Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers may consider this information when making decisions, 
+they may crawl pages marked <code>hourly</code> less frequently than that, and they may crawl pages marked <code>yearly</code> more frequently than that. </p>
+
+<p>Crawlers may periodically crawl pages marked <code>never</code> so that they can handle unexpected changes to those pages.</p>
+
+<h3>
+<a id="priority" class="anchor" href="#priority" aria-hidden="true"><span class="octicon octicon-link"></span></a>priority</h3>
+
+<p>The default priority of a page is <code>0.5</code>.
+Please note that the priority you assign to a page is not likely to influence the position of your URLs in a search engine's result pages. Search engines may use this information when selecting between URLs on the same site, so you can use this tag to increase the likelihood that your most important pages are present in a search index.
+Also, please note that assigning a high priority to all of the URLs on your site is not likely to help you. Since the priority is relative, it is only used to select between URLs on your site.</p>
+
+<h3>
+<a id="lastmod" class="anchor" href="#lastmod" aria-hidden="true"><span class="octicon octicon-link"></span></a>lastmod</h3>
+
+<p>Your date format will auto convert to <a href="http://www.w3.org/TR/NOTE-datetime">W3c Datetime format</a>. for example, if you send
+a string look like: <code>2015-06-07 10:51:20</code>, Sitemap object will auto convert it to <code>2015-06-07T10:51:20+02:00</code>.</p>
+
+<p>You can set the format you want:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$sitemap</span><span class="pl-k">-&gt;</span>setDateFormat(<span class="pl-c1">\DateTime</span><span class="pl-k">::</span><span class="pl-c1">ISO8601</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// OR</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$sitemap</span><span class="pl-k">-&gt;</span>setDateFormat(<span class="pl-s"><span class="pl-pds">'</span>Y-m-d<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<h2>
+<a id="using-sitemap-index-files-to-group-multiple-sitemap-files" class="anchor" href="#using-sitemap-index-files-to-group-multiple-sitemap-files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using Sitemap index files (to group multiple sitemap files)</h2>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">Asika\Sitemap\SitemapIndex</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$index</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">SitemapIndex</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$index</span><span class="pl-k">-&gt;</span>addItem(<span class="pl-s"><span class="pl-pds">'</span>http://domain.com/sitemap1.xml<span class="pl-pds">'</span></span>, <span class="pl-smi">$lastmod1</span>);</span>
+<span class="pl-s1"><span class="pl-smi">$index</span><span class="pl-k">-&gt;</span>addItem(<span class="pl-s"><span class="pl-pds">'</span>http://domain.com/sitemap2.xml<span class="pl-pds">'</span></span>, <span class="pl-smi">$lastmod2</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c1">echo</span> <span class="pl-smi">$index</span><span class="pl-k">-&gt;</span>toString();</span></pre></div>
+
+<p>Output:</p>
+
+<div class="highlight highlight-xml"><pre>&lt;?<span class="pl-ent">xml</span><span class="pl-e"> version</span>=<span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span><span class="pl-e"> encoding</span>=<span class="pl-s"><span class="pl-pds">"</span>utf-8<span class="pl-pds">"</span></span>?&gt;
+&lt;<span class="pl-ent">sitemapindex</span> <span class="pl-e">xmlns</span>=<span class="pl-s"><span class="pl-pds">"</span>http://www.sitemaps.org/schemas/sitemap/0.9<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">sitemap</span>&gt;
+        &lt;<span class="pl-ent">loc</span>&gt;http://domain.com/sitemap1.xml&lt;/<span class="pl-ent">loc</span>&gt;
+        &lt;<span class="pl-ent">lastmod</span>&gt;2015-06-07T10:51:20+02:00&lt;/<span class="pl-ent">lastmod</span>&gt;
+    &lt;/<span class="pl-ent">sitemap</span>&gt;
+    &lt;<span class="pl-ent">sitemap</span>&gt;
+        &lt;<span class="pl-ent">loc</span>&gt;http://domain.com/sitemap2.xml&lt;/<span class="pl-ent">loc</span>&gt;
+        &lt;<span class="pl-ent">lastmod</span>&gt;2015-06-07T10:51:20+02:00&lt;/<span class="pl-ent">lastmod</span>&gt;
+    &lt;/<span class="pl-ent">sitemap</span>&gt;
+&lt;/<span class="pl-ent">sitemapindex</span>&gt;</pre></div>
+
+<p>See: <a href="http://www.sitemaps.org/protocol.html#index">http://www.sitemaps.org/protocol.html#index</a></p>
+
+<h2>
+<a id="more" class="anchor" href="#more" aria-hidden="true"><span class="octicon octicon-link"></span></a>More</h2>
+
+<ul>
+<li><a href="http://www.sitemaps.org/protocol.html#extending">Extending the Sitemaps protocol</a></li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/asika32764/php-sitemap">PHP Simple Sitemap Generator</a> is maintained by <a href="https://github.com/asika32764">asika32764</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-48372917-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
+
