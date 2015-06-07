@@ -38,9 +38,10 @@ You can add some optional params.
 use Asika\Sitemap\ChangeFreq;
 
 $sitemap->addItem($url, '1.0', ChangeFreq::DAILY, '2015-06-07 10:51:20');
+$sitemap->addItem($url, '0.7', ChangeFreq::WEEKLY, new \DateTime('2015-06-03 11:24:20'));
 ```
 
-The first arguments are `loc`, `priority`, `changefreq` and `lastmod`. See this table:
+The arguments are `loc`, `priority`, `changefreq` and `lastmod`. See this table:
  
 | Params | Required | Description |
 | ------ | -------- | ----------- |
@@ -51,7 +52,7 @@ The first arguments are `loc`, `priority`, `changefreq` and `lastmod`. See this 
 
 See: http://www.sitemaps.org/protocol.html#xmlTagDefinitions
 
-Then we render it to XML:
+### Render it to XML:
 
 ``` php
 echo $sitemap->toString();
@@ -116,8 +117,14 @@ ChangeFreq::YEARLY;
 ChangeFreq::NEVER;
 ```
 
-The value "always" should be used to describe documents that change each time they are accessed. The value "never" should be used to describe archived URLs.
-Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers may consider this information when making decisions, they may crawl pages marked "hourly" less frequently than that, and they may crawl pages marked "yearly" more frequently than that. Crawlers may periodically crawl pages marked "never" so that they can handle unexpected changes to those pages.
+The value `always` should be used to describe documents that change each time they are accessed. 
+
+The value `never` should be used to describe archived URLs.
+
+Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers may consider this information when making decisions, 
+they may crawl pages marked `hourly` less frequently than that, and they may crawl pages marked `yearly` more frequently than that. 
+
+Crawlers may periodically crawl pages marked `never` so that they can handle unexpected changes to those pages.
 
 ### priority
 

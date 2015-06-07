@@ -25,10 +25,10 @@ class Sitemap extends AbstractSitemap
 	/**
 	 * addItem
 	 *
-	 * @param string $loc
-	 * @param string $priority
-	 * @param string $changefreq
-	 * @param string $lastmod
+	 * @param string           $loc
+	 * @param string           $priority
+	 * @param string           $changefreq
+	 * @param string|\DateTime $lastmod
 	 *
 	 * @return  static
 	 */
