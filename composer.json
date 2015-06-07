@@ -1,0 +1,21 @@
+{
+    "name": "asika/sitemap",
+    "type": "php",
+    "description": "PHP Simple Sitemap Generator",
+    "keywords": ["sitemap", "seo", "google"],
+    "homepage": "https://github.com/asika32764/php-sitemap",
+    "license": "GPL-3.0+",
+    "require": {
+        "php": ">=5.3.10"
+    },
+    "require": {
+    },
+    "require-dev": {
+        "windwalker/test": "2.*@stable"
+    },
+    "autoload": {
+        "psr-4": {
+            "Asika\\Sitemap\\": "src/"
+        }
+    }
+}
