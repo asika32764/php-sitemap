@@ -46,9 +46,9 @@ The arguments are `loc`, `priority`, `changefreq` and `lastmod`. See this table:
 | Params | Required | Description |
 | ------ | -------- | ----------- |
 | `loc`   | required | URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters. |
-| `priority` | optional | The date of last modification of the file. This date should be in [W3C Datetime format](http://www.w3.org/TR/NOTE-datetime). This format allows you to omit the time portion, if desired, and use YYYY-MM-DD. |
+| `priority` | optional | The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0. This value does not affect how your pages are compared to pages on other sites—it only lets the search engines know which pages you deem most important for the crawlers. |
 | `changefreq` | optional | How frequently the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page. |
-| `lastmod` | optional | The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0. This value does not affect how your pages are compared to pages on other sites—it only lets the search engines know which pages you deem most important for the crawlers. |
+| `lastmod` | optional | The date of last modification of the file. This date should be in [W3C Datetime format](http://www.w3.org/TR/NOTE-datetime). This format allows you to omit the time portion, if desired, and use YYYY-MM-DD. |
 
 See: http://www.sitemaps.org/protocol.html#xmlTagDefinitions
 
