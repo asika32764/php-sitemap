@@ -9,7 +9,7 @@ Add this to composer.json require block.
 ``` json
 {
     "require": {
-        "asika/php-sitemap": "1.*"
+        "asika/sitemap": "1.*"
     }
 }
 ```
