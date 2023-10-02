@@ -1,25 +1,19 @@
 <?php
-/**
- * Part of zero project. 
- *
- * @copyright  Copyright (C) 2015 {ORGANIZATION}. All rights reserved.
- * @license    GNU General Public License version 2 or later;
- */
+
+declare(strict_types=1);
 
 namespace Asika\Sitemap;
 
 /**
- * The ChangeFreq class.
- * 
- * @since  {DEPLOY_VERSION}
+ * The ChangeFreq.
  */
-class ChangeFreq
+enum ChangeFreq: string
 {
-	const ALWAYS = 'always';
-	const HOURLY = 'hourly';
-	const DAILY = 'daily';
-	const WEEKLY = 'weekly';
-	const MONTHLY = 'monthly';
-	const YEARLY = 'yearly';
-	const NEVER = 'never';
+    case ALWAYS = 'always';
+    case HOURLY = 'hourly';
+    case DAILY = 'daily';
+    case WEEKLY = 'weekly';
+    case MONTHLY = 'monthly';
+    case YEARLY = 'yearly';
+    case NEVER = 'never';
 }

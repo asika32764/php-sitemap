@@ -1,56 +1,57 @@
 <?php
-/**
- * Part of zero project. 
- *
- * @copyright  Copyright (C) 2015 {ORGANIZATION}. All rights reserved.
- * @license    GNU General Public License version 2 or later;
- */
+
+declare(strict_types=1);
 
 namespace Asika\Sitemap;
 
+use DateTimeImmutable;
+use DateTimeInterface;
+use Exception;
+use UnexpectedValueException;
+
 /**
  * The SitemapIndex class.
- * 
+ *
  * @since  {DEPLOY_VERSION}
  */
 class SitemapIndex extends AbstractSitemap
 {
-	/**
-	 * Property root.
-	 *
-	 * @var  string
-	 */
-	protected $root = 'sitemapindex';
+    /**
+     * Property root.
+     *
+     * @var  string
+     */
+    protected string $root = 'sitemapindex';
 
-	/**
-	 * addItem
-	 *
-	 * @param string           $loc
-	 * @param string|\DateTime $lastmod
-	 *
-	 * @return  static
-	 */
-	public function addItem($loc, $lastmod = null)
-	{
-		if ($this->autoEscape)
-		{
-			$loc = htmlspecialchars($loc);
-		}
+    /**
+     * @param string                         $loc
+     * @param DateTimeInterface|string|null $lastmod
+     *
+     * @return  static
+     * @throws Exception
+     */
+    public function addItem(string $loc, DateTimeInterface|string $lastmod = null)
+    {
+        if ($this->autoEscape) {
+            $loc = htmlspecialchars($loc);
+        }
 
-		$sitemap = $this->xml->addChild('sitemap');
+        $sitemap = $this->xml->addChild('sitemap');
 
-		$sitemap->addChild('loc', $loc);
+        if ($sitemap === null) {
+            throw new UnexpectedValueException('Add Sitemap to XML failed.');
+        }
 
-		if ($lastmod)
-		{
-			if (!($lastmod instanceof \DateTime))
-			{
-				$lastmod = new \DateTime($lastmod);
-			}
+        $sitemap->addChild('loc', $loc);
 
-			$sitemap->addChild('lastmod', $lastmod->format($this->dateFormat));
-		}
+        if ($lastmod) {
+            if (!($lastmod instanceof DateTimeInterface)) {
+                $lastmod = new DateTimeImmutable($lastmod);
+            }
 
-		return $this;
-	}
+            $sitemap->addChild('lastmod', $lastmod->format($this->dateFormat));
+        }
+
+        return $this;
+    }
 }

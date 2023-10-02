@@ -4,29 +4,23 @@ PHP Simple Sitemap Generator. Follows the [W3C Sitemap Protocol](http://www.site
 
 ## Installation via Composer
 
-Add this to composer.json require block.
-
-``` json
-{
-    "require": {
-        "asika/sitemap": "1.*"
-    }
-}
+```shell
+composer require asika/sitemap
 ```
 
 ## Getting Started
 
 Create a sitemap object:
 
-``` php
+```php
 use Asika\Sitemap\Sitemap;
 
-$sitemap = new Sitemap;
+$sitemap = new Sitemap();
 ```
 
 Add items to sitemap:
 
-``` php
+```php
 $sitemap->addItem($url);
 $sitemap->addItem($url);
 $sitemap->addItem($url);
@@ -34,7 +28,7 @@ $sitemap->addItem($url);
 
 You can add some optional params.
 
-``` php
+```php
 use Asika\Sitemap\ChangeFreq;
 
 $sitemap->addItem($url, '1.0', ChangeFreq::DAILY, '2015-06-07 10:51:20');
@@ -43,19 +37,19 @@ $sitemap->addItem($url, '0.7', ChangeFreq::WEEKLY, new \DateTime('2015-06-03 11:
 
 The arguments are `loc`, `priority`, `changefreq` and `lastmod`. See this table:
  
-| Params | Required | Description |
-| ------ | -------- | ----------- |
-| `loc`   | required | URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters. |
-| `priority` | optional | The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0. This value does not affect how your pages are compared to pages on other sites—it only lets the search engines know which pages you deem most important for the crawlers. |
-| `changefreq` | optional | How frequently the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page. |
-| `lastmod` | optional | The date of last modification of the file. This date should be in [W3C Datetime format](http://www.w3.org/TR/NOTE-datetime). This format allows you to omit the time portion, if desired, and use YYYY-MM-DD. |
+| Params       | Required | Description                                                                                                                                                                                                                                                                 |
+|--------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `loc`        | required | URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters.                                                                                         |
+| `priority`   | optional | The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0. This value does not affect how your pages are compared to pages on other sites—it only lets the search engines know which pages you deem most important for the crawlers. |
+| `changefreq` | optional | How frequently the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page.                                                                                                      |
+| `lastmod`    | optional | The date of last modification of the file. This date should be in [W3C Datetime format](http://www.w3.org/TR/NOTE-datetime). This format allows you to omit the time portion, if desired, and use YYYY-MM-DD.                                                               |
 
 See: http://www.sitemaps.org/protocol.html#xmlTagDefinitions
 
 ### Render it to XML:
 
-``` php
-echo $sitemap->toString();
+```php
+echo $sitemap->render();
 
 // OR
 
@@ -64,7 +58,7 @@ echo $sitemap->toString();
 
 This is an example to send it as real sitemap for Google or other search engine:
 
-``` php
+```php
 header('Content-Type: application/xml');
 
 echo $sitemap;
@@ -72,7 +66,25 @@ echo $sitemap;
 exit();
 ```
 
-Output:
+Use `output()` to instantly print header and XML body:
+
+```php
+$sitemap->output();
+
+exit();
+```
+
+Handle Psr7 Response
+
+```php
+$response = new Response();
+
+$response = $sitemap->handleResponse($response);
+
+return $response;
+```
+
+The XML output in browser:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -97,7 +109,7 @@ The URL will be auto escaped. For example, the `&`, `>` will convert to `&amp;`,
 
 If you want to escape it yourself, set auto escape off:
 
-``` php
+```php
 $sitemap->setAutoEscape(false);
 ```
 
@@ -107,7 +119,7 @@ See: http://www.sitemaps.org/protocol.html#escaping
 
 Valid values are:
 
-``` php
+```php
 ChangeFreq::ALWAYS;
 ChangeFreq::HOURLY;
 ChangeFreq::DAILY;
@@ -139,8 +151,8 @@ a string look like: `2015-06-07 10:51:20`, Sitemap object will auto convert it t
 
 You can set the format you want:
 
-``` php
-$sitemap->setDateFormat(\DateTime::ISO8601);
+```php
+$sitemap->setDateFormat(\DateTimeInterface::ISO8601);
 
 // OR
 
@@ -149,15 +161,15 @@ $sitemap->setDateFormat('Y-m-d');
 
 ## Using Sitemap index files (to group multiple sitemap files)
 
-``` php
+```php
 use Asika\Sitemap\SitemapIndex;
 
-$index = new SitemapIndex;
+$index = new SitemapIndex();
 
 $index->addItem('http://domain.com/sitemap1.xml', $lastmod1);
 $index->addItem('http://domain.com/sitemap2.xml', $lastmod2);
 
-echo $index->toString();
+echo $index->render();
 ```
 
 Output:

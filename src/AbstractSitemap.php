@@ -1,182 +1,209 @@
 <?php
-/**
- * Part of zero project. 
- *
- * @copyright  Copyright (C) 2015 {ORGANIZATION}. All rights reserved.
- * @license    GNU General Public License version 2 or later;
- */
+
+declare(strict_types=1);
 
 namespace Asika\Sitemap;
 
+use DateTimeInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
+use SimpleXMLElement;
+
 /**
  * The AbstractSitemap class.
- * 
+ *
  * @since  {DEPLOY_VERSION}
  */
 abstract class AbstractSitemap
 {
-	/**
-	 * Property root.
-	 *
-	 * @var  string
-	 */
-	protected $root = 'sitemap';
+    /**
+     * Property root.
+     *
+     * @var  string
+     */
+    protected string $root = 'sitemap';
 
-	/**
-	 * Property xmlns.
-	 *
-	 * @var  string
-	 */
-	protected $xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9';
+    /**
+     * Property xmlns.
+     *
+     * @var  string
+     */
+    protected string $xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 
-	/**
-	 * Property encoding.
-	 *
-	 * @var  string
-	 */
-	protected $encoding = 'utf-8';
+    /**
+     * Property encoding.
+     *
+     * @var  string
+     */
+    protected string $encoding = 'utf-8';
 
-	/**
-	 * Property XmlVersion.
-	 *
-	 * @var  string
-	 */
-	protected $xmlVersion = '1.0';
+    /**
+     * Property XmlVersion.
+     *
+     * @var  string
+     */
+    protected string $xmlVersion = '1.0';
 
-	/**
-	 * Property xml.
-	 *
-	 * @var  \SimpleXMLElement
-	 */
-	protected $xml;
+    /**
+     * @var string
+     */
+    protected string $contentType = 'application/xml';
 
-	/**
-	 * Property autoEscape.
-	 *
-	 * @var  boolean
-	 */
-	protected $autoEscape = true;
+    /**
+     * Property xml.
+     *
+     * @var  SimpleXMLElement
+     */
+    protected SimpleXMLElement $xml;
 
-	/**
-	 * Property dateFormat.
-	 *
-	 * @var  string
-	 */
-	protected $dateFormat = '';
+    /**
+     * Property autoEscape.
+     *
+     * @var  bool
+     */
+    protected bool $autoEscape = true;
 
-	/**
-	 * Class init.
-	 *
-	 * @param string $xmlns
-	 * @param string $encoding
-	 * @param string $XmlVersion
-	 */
-	public function __construct($xmlns = null, $encoding = 'utf-8', $XmlVersion = '1.0')
-	{
-		$this->xmlns      = $xmlns ? : $this->xmlns;
-		$this->encoding   = $encoding;
-		$this->xmlVersion = $XmlVersion;
+    /**
+     * Property dateFormat.
+     *
+     * @var  string
+     */
+    protected string $dateFormat = DateTimeInterface::W3C;
 
-		$this->dateFormat = \DateTime::W3C;
+    /**
+     * Class init.
+     *
+     * @param string|null $xmlns
+     * @param string      $encoding
+     * @param string      $xmlVersion
+     */
+    public function __construct(
+        string $xmlns = null,
+        string $encoding = 'utf-8',
+        string $xmlVersion = '1.0'
+    ) {
+        $this->xmlns      = $xmlns ?: $this->xmlns;
+        $this->encoding   = $encoding;
+        $this->xmlVersion = $xmlVersion;
 
-		$this->xml = $this->getSimpleXmlElement();
-	}
+        $this->xml = $this->getSimpleXmlElement();
+    }
 
-	/**
-	 * getSimpleXmlElement
-	 *
-	 * @return  \SimpleXMLElement
-	 */
-	public function getSimpleXmlElement()
-	{
-		if (!$this->xml)
-		{
-			$this->xml = simplexml_load_string(
-				sprintf(
-					'<?xml version="%s" encoding="%s"?' . '><%s xmlns="%s" />',
-					$this->xmlVersion,
-					$this->encoding,
-					$this->root,
-					$this->xmlns
-				)
-			);
-		}
+    /**
+     * @return  SimpleXMLElement
+     */
+    public function getSimpleXmlElement(): SimpleXMLElement
+    {
+        return $this->xml ??= simplexml_load_string(
+            sprintf(
+                '<?xml version="%s" encoding="%s"?' . '><%s xmlns="%s" />',
+                $this->xmlVersion,
+                $this->encoding,
+                $this->root,
+                $this->xmlns
+            )
+        );
+    }
 
-		return $this->xml;
-	}
+    /**
+     * toString
+     *
+     * @return  string
+     */
+    public function render(): string
+    {
+        return $this->xml->asXML();
+    }
 
-	/**
-	 * toString
-	 *
-	 * @return  string
-	 */
-	public function toString()
-	{
-		return $this->xml->asXML();
-	}
+    /**
+     * @return  string
+     */
+    public function __toString()
+    {
+        return $this->render();
+    }
 
-	/**
-	 * __toString
-	 *
-	 * @return  string
-	 */
-	public function __toString()
-	{
-		try
-		{
-			return $this->toString();
-		}
-		catch (\Exception $e)
-		{
-			return $e;
-		}
-	}
+    public function handleResponse(
+        ResponseInterface $response,
+        StreamInterface $body = null
+    ): ResponseInterface {
+        $body ??= $response->getBody();
+        $body->rewind();
+        $body->write($this->render());
 
-	/**
-	 * Method to get property AutoEscape
-	 *
-	 * @return  boolean
-	 */
-	public function getAutoEscape()
-	{
-		return $this->autoEscape;
-	}
+        return $response->withHeader('content-type', $this->contentType)
+            ->withBody($body);
+    }
 
-	/**
-	 * Method to set property autoEscape
-	 *
-	 * @param   boolean $autoEscape
-	 *
-	 * @return  static  Return self to support chaining.
-	 */
-	public function setAutoEscape($autoEscape)
-	{
-		$this->autoEscape = $autoEscape;
+    public function output(): void
+    {
+        header('Content-Type: ' . $this->contentType);
 
-		return $this;
-	}
+        echo $this->render();
+    }
 
-	/**
-	 * Method to get property DateFormat
-	 *
-	 * @return  string
-	 */
-	public function getDateFormat()
-	{
-		return $this->dateFormat;
-	}
+    /**
+     * Method to get property AutoEscape
+     *
+     * @return  bool
+     */
+    public function getAutoEscape(): bool
+    {
+        return $this->autoEscape;
+    }
 
-	/**
-	 * Method to set property dateFormat
-	 *
-	 * @param   string $dateFormat
-	 *
-	 * @return  static  Return self to support chaining.
-	 */
-	public function setDateFormat($dateFormat)
-	{
-		$this->dateFormat = $dateFormat;
+    /**
+     * Method to set property autoEscape
+     *
+     * @param bool $autoEscape
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setAutoEscape(bool $autoEscape): static
+    {
+        $this->autoEscape = $autoEscape;
 
-		return $this;
-	}
+        return $this;
+    }
+
+    /**
+     * Method to get property DateFormat
+     *
+     * @return  string
+     */
+    public function getDateFormat(): string
+    {
+        return $this->dateFormat;
+    }
+
+    /**
+     * Method to set property dateFormat
+     *
+     * @param string $dateFormat
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setDateFormat(string $dateFormat): static
+    {
+        $this->dateFormat = $dateFormat;
+
+        return $this;
+    }
+
+    public function getContentType(): string
+    {
+        return $this->contentType;
+    }
+
+    /**
+     * @param string $contentType
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setContentType(string $contentType): static
+    {
+        $this->contentType = $contentType;
+
+        return $this;
+    }
 }

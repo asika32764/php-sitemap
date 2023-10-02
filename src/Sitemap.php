@@ -1,61 +1,73 @@
 <?php
-/**
- * Part of zero project. 
- *
- * @copyright  Copyright (C) 2015 {ORGANIZATION}. All rights reserved.
- * @license    GNU General Public License version 2 or later;
- */
+
+declare(strict_types=1);
 
 namespace Asika\Sitemap;
 
+use DateTimeImmutable;
+use DateTimeInterface;
+use Exception;
+use UnexpectedValueException;
+
 /**
  * The Sitemap class.
- * 
- * @since  {DEPLOY_VERSION}
  */
 class Sitemap extends AbstractSitemap
 {
-	/**
-	 * Property root.
-	 *
-	 * @var  string
-	 */
-	protected $root = 'urlset';
+    /**
+     * Property root.
+     *
+     * @var  string
+     */
+    protected string $root = 'urlset';
 
-	/**
-	 * addItem
-	 *
-	 * @param string           $loc
-	 * @param string           $priority
-	 * @param string           $changefreq
-	 * @param string|\DateTime $lastmod
-	 *
-	 * @return  static
-	 */
-	public function addItem($loc, $priority = null, $changefreq = null, $lastmod = null)
-	{
-		if ($this->autoEscape)
-		{
-			$loc = htmlspecialchars($loc);
-		}
+    /**
+     * @param string                         $loc
+     * @param string|null                    $priority
+     * @param ChangeFreq|string|null         $changeFreq
+     * @param DateTimeInterface|string|null $lastmod
+     *
+     * @return  static
+     * @throws Exception
+     */
+    public function addItem(
+        string $loc,
+        string $priority = null,
+        ChangeFreq|string $changeFreq = null,
+        DateTimeInterface|string $lastmod = null
+    ): static {
+        if ($this->autoEscape) {
+            $loc = htmlspecialchars($loc);
+        }
 
-		$url = $this->xml->addChild('url');
+        $url = $this->xml->addChild('url');
 
-		$url->addChild('loc', $loc);
+        if ($url === null) {
+            throw new UnexpectedValueException('Add URL to XML failed.');
+        }
 
-		$changefreq ? $url->addChild('changefreq', $changefreq) : null;
-		$priority   ? $url->addChild('priority', $priority)     : null;
+        $url->addChild('loc', $loc);
 
-		if ($lastmod)
-		{
-			if (!($lastmod instanceof \DateTime))
-			{
-				$lastmod = new \DateTime($lastmod);
-			}
+        if ($changeFreq) {
+            if ($changeFreq instanceof ChangeFreq) {
+                $changeFreq = $changeFreq->value;
+            }
 
-			$url->addChild('lastmod', $lastmod->format($this->dateFormat));
-		}
+            $url->addChild('changefreq', $changeFreq);
+        }
 
-		return $this;
-	}
+        if ($priority) {
+            $url->addChild('priority', $priority);
+        }
+
+        if ($lastmod) {
+            if (!($lastmod instanceof DateTimeInterface)) {
+                $lastmod = new DateTimeImmutable($lastmod);
+            }
+
+            $url->addChild('lastmod', $lastmod->format($this->dateFormat));
+        }
+
+        return $this;
+    }
 }
