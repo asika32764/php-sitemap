@@ -31,11 +31,13 @@ class Sitemap extends AbstractSitemap
      * @throws Exception
      */
     public function addItem(
-        string $loc,
-        string $priority = null,
+        string|\Stringable $loc,
+        string|int|float $priority = null,
         ChangeFreq|string $changeFreq = null,
         DateTimeInterface|string $lastmod = null
     ): static {
+        $loc = (string) $loc;
+
         if ($this->autoEscape) {
             $loc = htmlspecialchars($loc);
         }
@@ -53,11 +55,11 @@ class Sitemap extends AbstractSitemap
                 $changeFreq = $changeFreq->value;
             }
 
-            $url->addChild('changefreq', $changeFreq);
+            $url->addChild('changefreq', (string) $changeFreq);
         }
 
         if ($priority) {
-            $url->addChild('priority', $priority);
+            $url->addChild('priority', (string) $priority);
         }
 
         if ($lastmod) {
