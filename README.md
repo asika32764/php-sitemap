@@ -2,6 +2,21 @@
 
 PHP Simple Sitemap Generator. Follows the [W3C Sitemap Protocol](http://www.sitemaps.org/protocol.html)
 
+<!-- TOC -->
+* [PHP Sitemap](#php-sitemap)
+  * [Installation via Composer](#installation-via-composer)
+  * [Getting Started](#getting-started)
+    * [Render it to XML:](#render-it-to-xml)
+  * [Arguments](#arguments)
+    * [loc](#loc)
+    * [changefreq](#changefreq)
+    * [priority](#priority)
+    * [lastmod](#lastmod)
+  * [Google News Sitemap](#google-news-sitemap)
+  * [Using Sitemap index files (to group multiple sitemap files)](#using-sitemap-index-files-to-group-multiple-sitemap-files)
+  * [More](#more)
+<!-- TOC -->
+
 ## Installation via Composer
 
 ```shell
@@ -86,7 +101,7 @@ return $response;
 
 The XML output in browser:
 
-``` xml
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
@@ -159,6 +174,42 @@ $sitemap->setDateFormat(\DateTimeInterface::ISO8601);
 $sitemap->setDateFormat('Y-m-d');
 ```
 
+## Google News Sitemap
+
+Please see [Google News Sitemap](https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap?visit_id=637247859078479568-4208069007&rd=3) document.
+
+```php
+$sitemap = new \Asika\Sitemap\NewsSitemap();
+
+$sitemap->addItem(
+    $url,
+    $newsTitle,
+    'Publication Name',
+    'en-us',
+    $publishedDate
+);
+```
+
+The format:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+  <loc>http://www.example.org/business/article55.html</loc>
+  <news:news>
+    <news:publication>
+      <news:name>The Example Times</news:name>
+      <news:language>en</news:language>
+    </news:publication>
+    <news:publication_date>2008-12-23</news:publication_date>
+    <news:title>Companies A, B in Merger Talks</news:title>
+  </news:news>
+  </url>
+</urlset>
+```
+
 ## Using Sitemap index files (to group multiple sitemap files)
 
 ```php
@@ -174,7 +225,7 @@ echo $index->render();
 
 Output:
 
-``` xml
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<sitemap>
