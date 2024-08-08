@@ -28,6 +28,7 @@ class NewsSitemap extends AbstractSitemap
         parent::__construct($xmlns, $encoding, $xmlVersion);
 
         $this->xml['xmlns:news'] = $this->newsXmlns;
+        $this->xml->registerXPathNamespace('news', $this->newsXmlns);
     }
 
     /**
@@ -60,27 +61,27 @@ class NewsSitemap extends AbstractSitemap
         }
 
         $url->addChild('loc', $loc);
-        $news = $url->addChild('news:news', null, 'news');
+        $news = $url->addChild('xmlns:news:news');
 
         if ($news === null) {
             throw new UnexpectedValueException('Add URL to XML failed.');
         }
 
-        $publication = $news->addChild('publication', null, 'news');
+        $publication = $news->addChild('xmlns:news:publication');
 
         if ($publication === null) {
             throw new UnexpectedValueException('Add URL to XML failed.');
         }
 
-        $publication->addChild('name', $publicationName, 'news');
-        $publication->addChild('language', $language, 'news');
+        $publication->addChild('xmlns:news:name', $publicationName);
+        $publication->addChild('xmlns:news:language', $language);
 
         if (!($publicationDate instanceof DateTimeInterface)) {
             $publicationDate = new DateTimeImmutable($publicationDate);
         }
 
-        $news->addChild('publication_date', $publicationDate->format($this->dateFormat), 'news');
-        $news->addChild('title', $title, 'news');
+        $news->addChild('xmlns:news:publication_date', $publicationDate->format($this->dateFormat));
+        $news->addChild('xmlns:news:title', $title);
 
         return $this;
     }
