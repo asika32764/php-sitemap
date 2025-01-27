@@ -14,7 +14,7 @@
     },
     "require-dev": {
         "windwalker/test": "^4.0",
-        "phpunit/phpunit": "^10.3",
+        "phpunit/phpunit": "^10.3||^11.0",
         "windwalker/dom": "^4.0",
         "psr/http-message": "^2.0"
     },
