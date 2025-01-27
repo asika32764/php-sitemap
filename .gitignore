@@ -1,5 +1,5 @@
 # System
-.*
+.idea
 !.gitignore
 
 # Composer
@@ -8,3 +8,4 @@ composer.lock
 
 # Test
 phpunit.xml
+.phpunit.result.cache
