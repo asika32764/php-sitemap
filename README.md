@@ -1,5 +1,11 @@
 # PHP Sitemap
 
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/asika32764/php-sitemap/ci.yml?style=for-the-badge)
+[![Packagist Version](https://img.shields.io/packagist/v/asika/sitemap?style=for-the-badge)
+](https://packagist.org/packages/asika/sitemap)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/asika/sitemap?style=for-the-badge)](https://packagist.org/packages/asika/sitemap)
+
 PHP Simple Sitemap Generator. Follows the [W3C Sitemap Protocol](http://www.sitemaps.org/protocol.html)
 
 <!-- TOC -->
@@ -20,7 +26,7 @@ PHP Simple Sitemap Generator. Follows the [W3C Sitemap Protocol](http://www.site
 ## Installation via Composer
 
 ```shell
-composer require asika/sitemap
+composer require 
 ```
 
 ## Getting Started
