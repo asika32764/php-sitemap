@@ -12,7 +12,7 @@ use UnexpectedValueException;
 /**
  * The SitemapIndex class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  2.1.1
  */
 class SitemapIndex extends AbstractSitemap
 {

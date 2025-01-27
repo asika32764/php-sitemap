@@ -12,7 +12,7 @@ use SimpleXMLElement;
 /**
  * The AbstractSitemap class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  2.1.1
  */
 abstract class AbstractSitemap
 {
