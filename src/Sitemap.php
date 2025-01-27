@@ -22,19 +22,19 @@ class Sitemap extends AbstractSitemap
     protected string $root = 'urlset';
 
     /**
-     * @param string                         $loc
-     * @param string|null                    $priority
-     * @param ChangeFreq|string|null         $changeFreq
-     * @param DateTimeInterface|string|null $lastmod
+     * @param  string|\Stringable             $loc
+     * @param  string|int|float|null          $priority
+     * @param  string|ChangeFreq|null         $changeFreq
+     * @param  DateTimeInterface|string|null  $lastmod
      *
      * @return  static
-     * @throws Exception
+     * @throws \DateMalformedStringException
      */
     public function addItem(
         string|\Stringable $loc,
-        string|int|float $priority = null,
-        ChangeFreq|string $changeFreq = null,
-        DateTimeInterface|string $lastmod = null
+        string|int|float|null $priority = null,
+        ChangeFreq|string|null $changeFreq = null,
+        DateTimeInterface|string|null $lastmod = null
     ): static {
         $loc = (string) $loc;
 

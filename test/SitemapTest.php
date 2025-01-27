@@ -72,7 +72,7 @@ XML;
 		<loc>http://windwalker.io/foo/bar/?flower=sakura&amp;fly=bird</loc>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
-		<lastmod>2015-06-07T10:51:20+02:00</lastmod>
+		<lastmod>2015-06-07T10:51:20+00:00</lastmod>
 	</url>
 </urlset>
 XML;

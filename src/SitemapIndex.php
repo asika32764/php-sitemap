@@ -30,7 +30,7 @@ class SitemapIndex extends AbstractSitemap
      * @return  static
      * @throws Exception
      */
-    public function addItem(string $loc, DateTimeInterface|string $lastmod = null)
+    public function addItem(string $loc, DateTimeInterface|string|null $lastmod = null)
     {
         if ($this->autoEscape) {
             $loc = htmlspecialchars($loc);

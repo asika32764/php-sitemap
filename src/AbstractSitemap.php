@@ -78,9 +78,9 @@ abstract class AbstractSitemap
      * @param string      $xmlVersion
      */
     public function __construct(
-        string $xmlns = null,
-        string $encoding = 'utf-8',
-        string $xmlVersion = '1.0'
+        ?string $xmlns = null,
+        string  $encoding = 'utf-8',
+        string  $xmlVersion = '1.0'
     ) {
         $this->xmlns      = $xmlns ?: $this->xmlns;
         $this->encoding   = $encoding;
@@ -125,7 +125,7 @@ abstract class AbstractSitemap
 
     public function handleResponse(
         ResponseInterface $response,
-        StreamInterface $body = null
+        ?StreamInterface $body = null
     ): ResponseInterface {
         $body ??= $response->getBody();
         $body->rewind();

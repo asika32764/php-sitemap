@@ -23,7 +23,7 @@ class NewsSitemap extends AbstractSitemap
 
     protected string $newsXmlns = 'http://www.google.com/schemas/sitemap-news/0.9';
 
-    public function __construct(string $xmlns = null, string $encoding = 'utf-8', string $xmlVersion = '1.0')
+    public function __construct(?string $xmlns = null, string $encoding = 'utf-8', string $xmlVersion = '1.0')
     {
         parent::__construct($xmlns, $encoding, $xmlVersion);
 

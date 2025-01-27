@@ -69,7 +69,7 @@ XML;
 	</sitemap>
 	<sitemap>
 		<loc>http://windwalker.io/sitemap2.xml</loc>
-		<lastmod>2015-06-07T10:51:20+02:00</lastmod>
+		<lastmod>2015-06-07T10:51:20+00:00</lastmod>
 	</sitemap>
 </sitemapindex>
 XML;
