@@ -26,7 +26,7 @@ PHP Simple Sitemap Generator. Follows the [W3C Sitemap Protocol](http://www.site
 ## Installation via Composer
 
 ```shell
-composer require 
+composer require asika/sitemap
 ```
 
 ## Getting Started
