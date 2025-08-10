@@ -77,6 +77,18 @@ echo $sitemap->render();
 (string) $sitemap;
 ```
 
+Save to file:
+
+```php
+$sitemap->save('/path/to/sitemap.xml');
+
+// OR
+
+$file = new SplFileInfo('/path/to/sitemap.xml');
+
+$sitemap->save($file);
+```
+
 This is an example to send it as real sitemap for Google or other search engine:
 
 ```php

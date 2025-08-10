@@ -115,6 +115,15 @@ abstract class AbstractSitemap
         return $this->xml->asXML();
     }
 
+    public function save(string|\SplFileInfo $file): false|int
+    {
+        if (is_string($file)) {
+            $file = new \SplFileInfo($file);
+        }
+
+        return file_put_contents($file->getPathname(), $this->render());
+    }
+
     /**
      * @return  string
      */
